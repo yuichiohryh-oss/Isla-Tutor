@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#153d3a">
+  <title>Isla Tutor — 役職選択ゲーム練習</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23153d3a'/%3E%3Cpath d='M12 42c12-20 30-22 40-10-10 17-28 20-40 10Z' fill='%23f0c66e'/%3E%3Cpath d='M30 45c-1-16 6-25 16-31-2 13-7 24-16 31Z' fill='%234aa37a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ui-v2.css">
+  <link rel="stylesheet" href="ui-v3.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="mark">I</span><strong>Isla Tutor</strong><small>役職選択ゲーム練習</small></div>
+    <div class="header-actions"><button id="rulesBtn" class="ghost">ルール</button><button id="newBtn" class="ghost">新しいゲーム</button></div>
+  </header>
+
+  <main>
+    <section id="setup" class="setup card">
+      <div class="setup-copy">
+        <p class="eyebrow">SOLO TRAINING</p>
+        <h1>役職を選ぶたび、<br>考え方が見える。</h1>
+        <p>あなた以外はNPC。基本ゲームを最後まで遊びながら、役職選択と勝ち筋を練習できます。</p>
+      </div>
+      <form id="setupForm" class="setup-form">
+        <fieldset><legend>プレイ人数</legend><div class="segmented">
+          <label><input type="radio" name="count" value="2"><span>2人</span></label>
+          <label><input type="radio" name="count" value="3" checked><span>3人</span></label>
+          <label><input type="radio" name="count" value="4"><span>4人</span></label>
+        </div></fieldset>
+        <fieldset><legend>NPCの強さ</legend><div class="difficulty">
+          <label><input type="radio" name="difficulty" value="easy"><span><b>初級</b><small>自分の利益を優先</small></span></label>
+          <label><input type="radio" name="difficulty" value="normal" checked><span><b>中級</b><small>相手の利益も読む</small></span></label>
+          <label><input type="radio" name="difficulty" value="hard"><span><b>上級</b><small>終盤と妨害を重視</small></span></label>
+        </div></fieldset>
+        <fieldset><legend>拡張</legend><div class="segmented set-choice">
+          <label><input type="radio" name="expansion" value="none" checked><span><b>なし</b><small>基本建物のみ</small></span></label>
+          <label><input type="radio" name="expansion" value="new_buildings"><span><b>新建物</b><small>準備中</small></span></label>
+        </div><p id="expansionNotice" class="form-note hidden" role="status">新建物拡張は準備中です。「なし」を選ぶとプレイできます。</p></fieldset>
+        <label class="check"><input id="balanced" type="checkbox" checked><span>バランス調整ルールを使う</span></label>
+        <button class="primary" type="submit">ゲームを始める</button>
+        <button id="resumeBtn" class="secondary hidden" type="button">前回の続きから</button>
+      </form>
+    </section>
+
+    <section id="game" class="game hidden">
+      <div id="status" class="statusbar"></div>
+      <div class="game-grid">
+        <aside class="left-column">
+          <section class="panel"><div class="panel-title"><h2>役職</h2><span id="roundLabel"></span></div><div id="roles" class="roles"></div></section>
+          <section class="panel compact"><div class="panel-title"><h2>中央</h2></div><div id="market" class="market"></div><div id="ships" class="ships"></div></section>
+          <section class="panel building-market-panel"><div class="panel-title"><h2>建物売り場</h2><span>残り棟数</span></div><div id="buildingMarket" class="building-market"></div></section>
+        </aside>
+        <section class="center-column">
+          <div id="players" class="players"></div>
+          <section id="decision" class="decision panel" aria-live="polite"><div id="decisionBody"></div></section>
+        </section>
+        <aside class="coach panel">
+          <div class="panel-title"><h2>コーチ</h2><span class="pulse">LIVE</span></div>
+          <div id="coach" class="coach-body"></div>
+          <div class="log-title">プレイログ</div><div id="log" class="log"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="rulesDialog" aria-labelledby="rulesTitle"><div class="dialog-head"><h2 id="rulesTitle">基本ルール早見</h2><button data-close aria-label="閉じる">×</button></div><div class="rules-copy">
+    <p>総督から順に役職を選び、全員がそのアクションを行います。選んだ人だけ特権を得ます。3・4人戦は各自1役職、2人戦は交互に各3役職を選ぶとラウンド終了です。</p>
+    <dl><dt>開拓者</dt><dd>農園を1枚取る。選択者は採石場も選べる。</dd><dt>親方</dt><dd>入植者を受け取り、農園や建物を稼働させる。</dd><dt>建築家</dt><dd>建物を1つ購入。選択者は1金引き。</dd><dt>監督</dt><dd>稼働中の農園と生産施設で商品を作る。</dd><dt>商人</dt><dd>商館にない種類の商品を1つ売る。</dd><dt>船長</dt><dd>積める商品は必ず出荷し、1個につき1VP。</dd><dt>金鉱掘り</dt><dd>選択者だけ1金を得る。</dd></dl>
+    <p>トウモロコシは農園だけで生産できます。それ以外の商品は、農園と対応する生産施設の両方に入植者が必要です。</p>
+    <p>VPチップ切れ、入植者不足、誰かが都市12マスを埋めたラウンドの終了時にゲーム終了します。最終得点は「出荷VP＋建物VP＋稼働中の大型建物ボーナス」です。</p>
+    <dl><dt>ギルドホール</dt><dd>小生産建物1VP、大生産建物2VP。</dd><dt>公邸</dt><dd>島タイル9枚以下4VP、10枚5VP、11枚6VP、12枚7VP。</dd><dt>要塞</dt><dd>所有する入植者3人ごとに1VP。</dd><dt>税関</dt><dd>出荷で得たVP4点ごとに1VP。</dd><dt>市役所</dt><dd>所有する紫建物1棟ごとに1VP。</dd></dl>
+    <p>バランス調整では工場と大学の価格を交換し、トウモロコシ開始者の所持金を1金減らします。</p>
+  </div></dialog>
+  <dialog id="endDialog" aria-label="最終結果"><div id="endBody"></div></dialog>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+  <script src="mayor-ui.js"></script>
+</body>
+</html>
