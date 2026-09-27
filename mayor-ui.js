@@ -36,9 +36,4 @@ renderDecision=function(){
 };
 const staffChangeBase=staffChange;
 staffChange=function(kind,index,delta){staffChangeBase(kind,index,delta);document.querySelector(`[data-staff][data-kind="${kind}"][data-index="${index}"][data-delta="${delta}"]`)?.focus()};
-document.querySelector('#resumeBtn').onclick=()=>{
-  try{
-    const raw=localStorage.getItem(SAVE_KEY);if(!raw)throw Error('保存データがありません');
-    game=Game.restore(JSON.parse(raw));showGame();game.s.phase==='end'?render():advance();
-  }catch(e){localStorage.removeItem(SAVE_KEY);document.querySelector('#resumeBtn').classList.add('hidden');alert('保存データを読み込めませんでした。新しいゲームを開始してください。')}
-};
+document.querySelector('#resumeBtn').onclick=resumeSavedGame;

@@ -9,11 +9,12 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="ui-v2.css">
   <link rel="stylesheet" href="ui-v3.css">
+  <link rel="stylesheet" href="tutorial.css">
 </head>
 <body>
   <header class="topbar">
     <div><span class="mark">I</span><strong>Isla Tutor</strong><small>役職選択ゲーム練習</small></div>
-    <div class="header-actions"><button id="rulesBtn" class="ghost">ルール</button><button id="newBtn" class="ghost">新しいゲーム</button></div>
+    <div class="header-actions"><button id="rulesBtn" class="ghost">ルール</button><button id="tutorialHeaderBtn" class="ghost">チュートリアル</button><button id="newBtn" class="ghost">新しいゲーム</button></div>
   </header>
 
   <main>
@@ -40,6 +41,7 @@
         </div><p id="expansionNotice" class="form-note hidden" role="status">新建物拡張は準備中です。「なし」を選ぶとプレイできます。</p></fieldset>
         <label class="check"><input id="balanced" type="checkbox" checked><span>バランス調整ルールを使う</span></label>
         <button class="primary" type="submit">ゲームを始める</button>
+        <button id="tutorialStartBtn" class="secondary" type="button">はじめて遊ぶ・チュートリアル</button>
         <button id="resumeBtn" class="secondary hidden" type="button">前回の続きから</button>
       </form>
     </section>
@@ -77,5 +79,6 @@
   <script src="engine.js"></script>
   <script src="app.js"></script>
   <script src="mayor-ui.js"></script>
+  <script src="tutorial.js"></script>
 </body>
 </html>
