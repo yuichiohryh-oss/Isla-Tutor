@@ -9,26 +9,26 @@ const {Game}=engine;
 
 const SCRIPTED_ROLES={1:{1:'builder',2:'mayor'},2:{1:'craftsman',2:'trader'}};
 const STEPS={
-  board:{title:'自分のボード',text:'ここに金、VP、待機入植者、都市、島、商品が表示されます。まず現在のボードを見てください。',target:'.player.you',next:'roles'},
-  roles:{title:'役職の仕組み',text:'毎ラウンド、各プレイヤーが1つずつ役職を選びます。選ばれた役職では全員が行動し、選択者だけが特権を受けます。',target:'#roles',next:'settler-role'},
-  'settler-role':{title:'開拓者を選ぶ',text:'光っている「開拓者」をクリックしてください。農園は商品を作るための土地です。',target:'[data-role="settler"]'},
-  corn:{title:'トウモロコシ農園',text:'光っているトウモロコシ農園を取得してください。トウモロコシは農園だけで生産できます。',target:'[data-tutorial-target="corn-choice"]'},
-  'building-market':{title:'建物売り場',text:'建物には価格とVPがあります。生産施設のほか、特別な効果を持つ建物もあります。建築家の選択者だけが1金引きです。',target:'#buildingMarket',next:'builder'},
-  builder:{title:'小インディゴ工場を建てる',text:'建築家を選んだのはNPCですが、あなたも建築できます。インディゴ農園だけでは生産できません。光っている工場を建ててください。',target:'[data-tutorial-target="indigo-factory"]'},
-  'staff-indigo':{title:'インディゴ農園に配置',text:'親方を選んだのもNPCです。役職のアクションは全員が行い、選択者だけが特権を受けます。インディゴ農園の「＋」を押してください。',target:'[data-staff][data-kind="plant"][data-index="0"][data-delta="1"]'},
-  'staff-corn':{title:'トウモロコシ農園に配置',text:'光っている「＋」でトウモロコシ農園に入植者を置いてください。',target:'[data-staff][data-kind="plant"][data-index="1"][data-delta="1"]'},
-  'staff-building':{title:'工場に配置',text:'インディゴの生産には、農園と対応する工場の両方に入植者が必要です。工場の「＋」を押してください。',target:'[data-staff][data-kind="building"][data-index="0"][data-delta="1"]'},
-  'staff-confirm':{title:'配置を確定',text:'両農園と工場に入植者が置かれました。「配置を確定」を押してください。',target:'#staffDone'},
-  produce:{title:'商品を生産',text:'NPCが監督を選びました。あなたも生産できます。トウモロコシは農園だけ、インディゴは農園と工場が稼働していると生産できます。',target:'[data-produce="1"]'},
-  goods:{title:'商品が増えました',text:'自分のボードにインディゴとトウモロコシが各1個増えました。次はインディゴを売り、トウモロコシを出荷用に残します。',target:'.player.you .goods-row',next:'market'},
-  market:{title:'商館を見る',text:'NPCが商人を選びました。商品を売ると金になります。商館にすでにある種類は原則売れません。選択者だけが売却時の特権を受けます。',target:'#market',next:'trade'},
-  trade:{title:'インディゴを売る',text:'光っているインディゴの売却を選んでください。トウモロコシは船長のために残します。',target:'[data-tutorial-target="indigo-sale"]'},
-  money:{title:'金が増えました',text:'インディゴを売って1金を得ました。今は便乗なので、商人の選択者特権は付きません。',target:'.player.you [data-stat="money"]',next:'captain-role'},
-  'captain-role':{title:'船長を選ぶ',text:'今度は自分が船長を選びます。光っている「船長」をクリックしてください。',target:'[data-role="captain"]'},
-  'ships-info':{title:'船を見る',text:'商品を出荷するとVPになります。積める商品があれば出荷は必須で、1隻には同じ種類の商品だけを積みます。',target:'#ships',next:'ship'},
-  ship:{title:'トウモロコシを出荷',text:'光っている船へトウモロコシを出荷してください。',target:'[data-tutorial-target="corn-shipment"]'},
-  bonus:{title:'船長の特権',text:'自分で船長を選んだので、最初の出荷に特権の1VPを追加できます。「使う」を押してください。',target:'[data-captain-bonus="1"]'},
-  complete:{title:'基本操作は以上です',text:'土地取得→建築→入植→生産→売却→出荷を体験しました。ここからは自由に遊んでみましょう。',target:'.player.you [data-stat="vp"]'}
+  board:{mode:'info',title:'自分のボード',text:'ここに金、VP、待機入植者、都市、島、商品が表示されます。まず現在のボードを見てください。',target:'.player.you',next:'roles'},
+  roles:{mode:'info',title:'役職の仕組み',text:'毎ラウンド、各プレイヤーが1つずつ役職を選びます。選ばれた役職では全員が行動し、選択者だけが特権を受けます。',target:'#roles',next:'settler-role'},
+  'settler-role':{mode:'action',title:'開拓者を選ぶ',text:'光っている「開拓者」をクリックしてください。農園は商品を作るための土地です。',target:'[data-role="settler"]'},
+  corn:{mode:'action',title:'トウモロコシ農園',text:'光っているトウモロコシ農園を取得してください。トウモロコシは農園だけで生産できます。',target:'[data-tutorial-target="corn-choice"]'},
+  'building-market':{mode:'info',title:'建物売り場',text:'建物には価格とVPがあります。生産施設のほか、特別な効果を持つ建物もあります。建築家の選択者だけが1金引きです。',target:'#buildingMarket',next:'builder'},
+  builder:{mode:'action',title:'小インディゴ工場を建てる',text:'建築家を選んだのはNPCですが、あなたも建築できます。インディゴ農園だけでは生産できません。光っている工場を建ててください。',target:'[data-tutorial-target="indigo-factory"]'},
+  'staff-indigo':{mode:'action',title:'インディゴ農園に配置',text:'親方を選んだのもNPCです。役職のアクションは全員が行い、選択者だけが特権を受けます。インディゴ農園の「＋」を押してください。',target:'[data-staff][data-kind="plant"][data-index="0"][data-delta="1"]'},
+  'staff-corn':{mode:'action',title:'トウモロコシ農園に配置',text:'光っている「＋」でトウモロコシ農園に入植者を置いてください。',target:'[data-staff][data-kind="plant"][data-index="1"][data-delta="1"]'},
+  'staff-building':{mode:'action',title:'工場に配置',text:'インディゴの生産には、農園と対応する工場の両方に入植者が必要です。工場の「＋」を押してください。',target:'[data-staff][data-kind="building"][data-index="0"][data-delta="1"]'},
+  'staff-confirm':{mode:'action',title:'配置を確定',text:'両農園と工場に入植者が置かれました。「配置を確定」を押してください。',target:'#staffDone'},
+  produce:{mode:'action',title:'商品を生産',text:'NPCが監督を選びました。あなたも生産できます。トウモロコシは農園だけ、インディゴは農園と工場が稼働していると生産できます。',target:'[data-produce="1"]'},
+  goods:{mode:'info',title:'商品が増えました',text:'自分のボードにインディゴとトウモロコシが各1個増えました。次はインディゴを売り、トウモロコシを出荷用に残します。',target:'.player.you .goods-row',next:'market'},
+  market:{mode:'info',title:'商館を見る',text:'NPCが商人を選びました。商品を売ると金になります。商館にすでにある種類は原則売れません。選択者だけが売却時の特権を受けます。',target:'#market',next:'trade'},
+  trade:{mode:'action',title:'インディゴを売る',text:'光っているインディゴの売却を選んでください。トウモロコシは船長のために残します。',target:'[data-tutorial-target="indigo-sale"]'},
+  money:{mode:'info',title:'金が増えました',text:'インディゴを売って1金を得ました。今は便乗なので、商人の選択者特権は付きません。',target:'.player.you [data-stat="money"]',next:'captain-role'},
+  'captain-role':{mode:'action',title:'船長を選ぶ',text:'今度は自分が船長を選びます。光っている「船長」をクリックしてください。',target:'[data-role="captain"]'},
+  'ships-info':{mode:'info',title:'船を見る',text:'商品を出荷するとVPになります。積める商品があれば出荷は必須で、1隻には同じ種類の商品だけを積みます。',target:'#ships',next:'ship'},
+  ship:{mode:'action',title:'トウモロコシを出荷',text:'光っている船へトウモロコシを出荷してください。',target:'[data-tutorial-target="corn-shipment"]'},
+  bonus:{mode:'action',title:'船長の特権',text:'自分で船長を選んだので、最初の出荷に特権の1VPを追加できます。「使う」を押してください。',target:'[data-captain-bonus="1"]'},
+  complete:{mode:'complete',title:'基本操作は以上です',text:'土地取得→建築→入植→生産→売却→出荷を体験しました。ここからは自由に遊んでみましょう。',target:'.player.you [data-stat="vp"]'}
 };
 const STEP_KEYS=Object.keys(STEPS);
 
@@ -71,7 +71,7 @@ function advanceAfterAction(stage,type,payload,before,s,milestones){
   return stage;
 }
 function createController(){
-  const state={active:false,stage:'board',savedAtStart:null,milestones:{cornShipped:false,captainPrivilegeTaken:false},ui:null,raf:0,epoch:0,focusedStage:null};
+  const state={active:false,stage:'board',savedAtStart:null,milestones:{cornShipped:false,captainPrivilegeTaken:false},ui:null,raf:0,epoch:0,focusVersion:0,focusedStage:null,focusedElement:null,highlightedElement:null,exitConfirmOpen:false};
   const controller={get active(){return state.active},get stage(){return state.stage},get milestones(){return{...state.milestones}},start,cleanup,abort,finish,sync,beforeAction,afterAction,allowsAction:canAct,allowsStaffChange};
   function start(){
     if(!state.active&&game&&!document.querySelector('#game').classList.contains('hidden')&&!confirm('現在のゲームを保存したまま、チュートリアルを始めますか？'))return;
@@ -82,15 +82,15 @@ function createController(){
     const ui=document.createElement('div');ui.id='tutorialOverlay';ui.innerHTML='<div class="tutorial-shade"></div><div class="tutorial-shade"></div><div class="tutorial-shade"></div><div class="tutorial-shade"></div><div class="tutorial-frame" aria-hidden="true"></div><section class="tutorial-card" role="dialog" aria-labelledby="tutorialTitle" aria-describedby="tutorialText" aria-live="polite"></section>';
     document.body.appendChild(ui);state.ui=ui;
     ui.querySelector('.tutorial-card').addEventListener('click',cardClick);
-    document.addEventListener('pointerdown',blockOutside,true);document.addEventListener('click',blockOutside,true);document.addEventListener('keydown',blockKeys,true);
+    document.addEventListener('pointerdown',blockOutside,true);document.addEventListener('touchstart',blockOutside,true);document.addEventListener('click',blockOutside,true);document.addEventListener('keydown',blockKeys,true);document.addEventListener('focusin',keepConfirmFocus,true);
     window.addEventListener('scroll',queuePosition,true);window.addEventListener('resize',queuePosition);
   }
   function cleanup(){
-    state.epoch++;cancelAnimationFrame(state.raf);state.raf=0;
-    document.removeEventListener('pointerdown',blockOutside,true);document.removeEventListener('click',blockOutside,true);document.removeEventListener('keydown',blockKeys,true);
+    state.epoch++;state.focusVersion++;cancelAnimationFrame(state.raf);state.raf=0;
+    document.removeEventListener('pointerdown',blockOutside,true);document.removeEventListener('touchstart',blockOutside,true);document.removeEventListener('click',blockOutside,true);document.removeEventListener('keydown',blockKeys,true);document.removeEventListener('focusin',keepConfirmFocus,true);
     window.removeEventListener('scroll',queuePosition,true);window.removeEventListener('resize',queuePosition);
-    document.querySelectorAll('.tutorial-highlight').forEach(x=>x.classList.remove('tutorial-highlight'));
-    state.ui?.remove();state.ui=null;state.active=false;state.focusedStage=null;
+    clearHighlights();
+    state.ui?.remove();state.ui=null;state.active=false;state.exitConfirmOpen=false;state.focusedStage=null;state.focusedElement=null;
   }
   function abort(){
     const raw=state.savedAtStart;cleanup();cancelSession();
@@ -102,7 +102,7 @@ function createController(){
     if(state.savedAtStart){abort();return}
     const finishedState=game.s;cleanup();cancelSession();game=Game.restore(finishedState);render();save();
   }
-  function canAct(type,payload){return allowsAction(state.stage,game.s,type,payload)}
+  function canAct(type,payload){return !state.exitConfirmOpen&&allowsAction(state.stage,game.s,type,payload)}
   function beforeAction(){return snapshot(game.s)}
   function afterAction(type,payload,before){
     if(!state.active)return;
@@ -111,43 +111,104 @@ function createController(){
     state.error='操作後の状態を確認できませんでした。チュートリアルを終了して再開始してください。';
   }
   function allowsStaffChange(kind,index,delta){
-    if(game.s.pending?.type!=='staff'||delta!==1)return false;
+    if(state.exitConfirmOpen||game.s.pending?.type!=='staff'||delta!==1)return false;
     return state.stage==='staff-indigo'&&kind==='plant'&&index===0||state.stage==='staff-corn'&&kind==='plant'&&index===1||state.stage==='staff-building'&&kind==='building'&&index===0;
   }
   function sync(){
     if(!state.active||!state.ui)return;
+    if(state.exitConfirmOpen)return;
     const me=game.s.players[0];
     if(state.stage==='staff-indigo'&&me.plants[0]?.worker===1)state.stage='staff-corn';
     if(state.stage==='staff-corn'&&me.plants[1]?.worker===1)state.stage='staff-building';
     if(state.stage==='staff-building'&&me.buildings[0]?.workers===1)state.stage='staff-confirm';
-    document.querySelectorAll('.tutorial-highlight').forEach(x=>x.classList.remove('tutorial-highlight'));
+    clearHighlights();
     const step=STEPS[state.stage],target=document.querySelector(step.target),card=state.ui.querySelector('.tutorial-card');
-    if(target)target.classList.add('tutorial-highlight');
+    if(target&&step.mode!=='complete'){target.classList.add('tutorial-highlight',`tutorial-${step.mode}-highlight`);state.highlightedElement=target}
+    const frame=state.ui.querySelector('.tutorial-frame');
+    frame.classList.toggle('tutorial-frame-info',step.mode==='info');
+    frame.classList.toggle('tutorial-frame-action',step.mode==='action');
+    frame.classList.toggle('tutorial-frame-complete',step.mode==='complete');
     const count=STEP_KEYS.indexOf(state.stage)+1;
-    const action=state.stage==='complete'?(state.savedAtStart?'<button class="primary" data-tutorial-action="finish">前回のゲームへ戻る</button>':'<button class="primary" data-tutorial-action="finish">チュートリアルを終了して続ける</button>'):step.next&&target?'<button class="primary" data-tutorial-action="next">次へ</button>':'';
-    card.innerHTML=`<div class="tutorial-count">ステップ ${count}/${STEP_KEYS.length}</div><h2 id="tutorialTitle">${step.title}</h2><p id="tutorialText">${state.error||(!target?'NPCが行動中です。画面の準備を待っています。':step.text)}</p><div class="tutorial-actions">${action}<button class="secondary" data-tutorial-action="abort">チュートリアルを終了</button></div>`;
+    const action=step.mode==='complete'?(state.savedAtStart?'<button class="primary" data-tutorial-action="finish">前回のゲームへ戻る</button>':'<button class="primary" data-tutorial-action="finish">チュートリアルを終了して続ける</button>'):step.mode==='info'?`<button class="primary" data-tutorial-action="next">次へ：${STEPS[step.next].title}</button>`:'';
+    const modeLabel={info:'説明',action:'操作してください',complete:'完了'}[step.mode];
+    const guidance=step.mode==='info'?'説明を読んだら、下のボタンで進んでください。':step.mode==='action'?'↓ カードではなく、画面の黄色く光っている場所を操作してください。':'';
+    const exit=step.mode==='complete'?'':'<div class="tutorial-exit"><button type="button" data-tutorial-action="exit">チュートリアルを終了する</button></div>';
+    card.innerHTML=`<div class="tutorial-count">ステップ ${count}/${STEP_KEYS.length} ・ ${modeLabel}</div><h2 id="tutorialTitle">${step.title}</h2><p id="tutorialText">${state.error||(!target?'NPCが行動中です。画面の準備を待っています。':step.text)}</p>${guidance?`<p class="tutorial-guidance">${guidance}</p>`:''}${action?`<div class="tutorial-actions">${action}</div>`:''}${exit}`;
     queuePosition();
-    if(state.focusedStage!==state.stage){state.focusedStage=state.stage;const epoch=state.epoch,stage=state.stage;requestAnimationFrame(()=>{if(!state.active||epoch!==state.epoch||stage!==state.stage)return;const fresh=document.querySelector(STEPS[stage].target);const focusTarget=fresh?.matches('button:not(:disabled)')?fresh:card.querySelector('[data-tutorial-action="next"], [data-tutorial-action="finish"], [data-tutorial-action="abort"]');focusTarget?.focus({preventScroll:true})})}
+    const epoch=state.epoch,stage=state.stage,version=++state.focusVersion;
+    requestAnimationFrame(()=>{
+      if(!state.active||state.exitConfirmOpen||epoch!==state.epoch||stage!==state.stage||version!==state.focusVersion)return;
+      const fresh=document.querySelector(STEPS[stage].target);
+      const focusTarget=step.mode==='action'?(fresh?.matches('button:not(:disabled)')?fresh:null):card.querySelector('[data-tutorial-action="next"], [data-tutorial-action="finish"]');
+      if(focusTarget&&(state.focusedStage!==stage||state.focusedElement!==focusTarget)){
+        focusTarget.focus({preventScroll:true});state.focusedStage=stage;state.focusedElement=focusTarget;
+      }
+    });
   }
-  function cardClick(event){const action=event.target.closest('[data-tutorial-action]')?.dataset.tutorialAction;if(action==='abort')abort();else if(action==='finish')finish();else if(action==='next'){const next=STEPS[state.stage]?.next;if(next){state.stage=next;sync()}}}
+  function clearHighlights(){
+    state.highlightedElement?.classList.remove('tutorial-highlight','tutorial-info-highlight','tutorial-action-highlight');
+    state.highlightedElement=null;
+    document.querySelectorAll('.tutorial-highlight').forEach(x=>x.classList.remove('tutorial-highlight','tutorial-info-highlight','tutorial-action-highlight'));
+  }
+  function showExitConfirm(){
+    state.exitConfirmOpen=true;state.focusVersion++;clearHighlights();
+    state.ui.classList.add('tutorial-confirm-open');
+    const card=state.ui.querySelector('.tutorial-card');
+    card.setAttribute('role','alertdialog');card.setAttribute('aria-modal','true');card.removeAttribute('aria-live');
+    card.innerHTML='<h2 id="tutorialTitle">チュートリアルを終了しますか？</h2><p id="tutorialText">途中までのチュートリアル進行は保存されません。</p><div class="tutorial-confirm-actions"><button class="primary" data-tutorial-action="continue">チュートリアルを続ける</button><button class="secondary" data-tutorial-action="confirm-exit">終了する</button></div>';
+    state.ui.querySelector('.tutorial-frame').style.display='none';
+    position();card.querySelector('[data-tutorial-action="continue"]').focus({preventScroll:true});
+  }
+  function closeExitConfirm(){
+    state.exitConfirmOpen=false;state.ui.classList.remove('tutorial-confirm-open');
+    const card=state.ui.querySelector('.tutorial-card');
+    card.setAttribute('role','dialog');card.removeAttribute('aria-modal');card.setAttribute('aria-live','polite');
+    state.focusedStage=null;state.focusedElement=null;sync();
+  }
+  function cardClick(event){
+    const action=event.target.closest('[data-tutorial-action]')?.dataset.tutorialAction;
+    if(state.exitConfirmOpen){if(action==='continue')closeExitConfirm();else if(action==='confirm-exit')abort();return}
+    if(action==='exit')showExitConfirm();
+    else if(action==='finish')finish();
+    else if(action==='next'&&STEPS[state.stage]?.mode==='info'){state.stage=STEPS[state.stage].next;sync()}
+  }
   function blockOutside(event){
-    if(!state.active||state.ui?.contains(event.target))return;
+    if(!state.active)return;
+    if(state.exitConfirmOpen){if(state.ui.querySelector('.tutorial-card').contains(event.target))return;event.preventDefault();event.stopImmediatePropagation();return}
+    if(state.ui?.contains(event.target))return;
     if(event.target.closest('#newBtn,#rulesBtn,#rulesDialog'))return;
-    const target=document.querySelector(STEPS[state.stage].target);
-    if(!STEPS[state.stage].next&&state.stage!=='complete'&&target?.contains(event.target))return;
+    const step=STEPS[state.stage],target=document.querySelector(step.target);
+    if(step.mode==='action'&&target?.contains(event.target))return;
     event.preventDefault();event.stopImmediatePropagation();
   }
   function blockKeys(event){
-    if(!state.active||!['Enter',' '].includes(event.key)||state.ui?.contains(event.target))return;
+    if(!state.active)return;
+    if(state.exitConfirmOpen){
+      if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeExitConfirm();return}
+      const card=state.ui.querySelector('.tutorial-card');
+      if(!card.contains(event.target)){event.preventDefault();event.stopImmediatePropagation();card.querySelector('[data-tutorial-action="continue"]').focus({preventScroll:true});return}
+      if(event.key==='Tab'){
+        const buttons=card.querySelectorAll('button:not(:disabled)'),first=buttons[0],last=buttons[buttons.length-1];
+        if(event.shiftKey&&event.target===first){event.preventDefault();last.focus({preventScroll:true})}
+        else if(!event.shiftKey&&event.target===last){event.preventDefault();first.focus({preventScroll:true})}
+      }
+      return;
+    }
+    if(!['Enter',' '].includes(event.key)||state.ui?.contains(event.target))return;
     if(event.target.closest('#newBtn,#rulesBtn,#rulesDialog'))return;
-    const target=document.querySelector(STEPS[state.stage].target);
-    if(!STEPS[state.stage].next&&state.stage!=='complete'&&target?.contains(event.target))return;
+    const step=STEPS[state.stage],target=document.querySelector(step.target);
+    if(step.mode==='action'&&target?.contains(event.target))return;
     event.preventDefault();event.stopImmediatePropagation();
+  }
+  function keepConfirmFocus(event){
+    if(!state.exitConfirmOpen||state.ui.querySelector('.tutorial-card').contains(event.target))return;
+    event.stopImmediatePropagation();state.ui.querySelector('[data-tutorial-action="continue"]').focus({preventScroll:true});
   }
   function queuePosition(){if(!state.active||state.raf)return;const epoch=state.epoch;state.raf=requestAnimationFrame(()=>{state.raf=0;if(epoch===state.epoch&&state.active)position()})}
   function position(){
     const ui=state.ui;if(!ui)return;const target=document.querySelector(STEPS[state.stage].target),shades=ui.querySelectorAll('.tutorial-shade'),frame=ui.querySelector('.tutorial-frame'),card=ui.querySelector('.tutorial-card');
     const vw=window.innerWidth,vh=window.innerHeight;
+    if(state.exitConfirmOpen){shades[0].style.cssText=`left:0;top:0;width:${vw}px;height:${vh}px`;for(let i=1;i<4;i++)shades[i].style.cssText='width:0;height:0';frame.style.display='none';card.style.cssText='left:50%;right:auto;top:50%;bottom:auto;transform:translate(-50%,-50%);max-height:calc(100vh - 24px)';return}
     if(!target){shades[0].style.cssText=`left:0;top:0;width:${vw}px;height:${vh}px`;for(let i=1;i<4;i++)shades[i].style.cssText='width:0;height:0';frame.style.display='none';card.style.cssText='left:12px;right:12px;bottom:12px;max-height:45vh';return}
     let rect=target.getBoundingClientRect();
     if(rect.bottom<80||rect.top>vh-24||(rect.height<vh-100&&(rect.top<72||rect.bottom>vh-16))){target.scrollIntoView({block:'center',behavior:'auto'});rect=target.getBoundingClientRect()}

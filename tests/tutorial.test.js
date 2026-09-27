@@ -2,6 +2,15 @@
 const assert=require('assert');
 const {Game,allColonists}=require('../engine.js');
 const {createTutorialGame,STEPS,snapshot,allowsAction,advanceAfterAction}=require('../tutorial.js');
+const modes={
+  info:['board','roles','building-market','goods','market','money','ships-info'],
+  action:['settler-role','corn','builder','staff-indigo','staff-corn','staff-building','staff-confirm','produce','trade','captain-role','ship','bonus'],
+  complete:['complete']
+};
+assert.equal(Object.keys(STEPS).length,20);
+assert.deepEqual(Object.keys(STEPS).sort(),Object.values(modes).flat().sort());
+for(const [mode,keys] of Object.entries(modes))for(const key of keys)assert.equal(STEPS[key].mode,mode,`${key} mode`);
+assert(Object.values(STEPS).every(step=>['info','action','complete'].includes(step.mode)));
 
 function runLesson(){
   const g=createTutorialGame(),s=g.s,milestones={cornShipped:false,captainPrivilegeTaken:false};

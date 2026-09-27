@@ -1,13 +1,25 @@
 #tutorialOverlay{position:fixed;inset:0;z-index:100;pointer-events:none}
 .tutorial-shade{position:fixed;background:rgba(8,26,24,.72);pointer-events:none}
-.tutorial-frame{position:fixed;border:3px solid #f5ca69;border-radius:10px;box-shadow:0 0 0 2px #17312f,0 0 22px #f5ca69aa;pointer-events:none}
-.tutorial-highlight{outline:3px solid #f5ca69!important;outline-offset:4px}
+.tutorial-frame{position:fixed;border-radius:10px;pointer-events:none}
+.tutorial-frame-action{border:3px solid #f5ca69;box-shadow:0 0 0 2px #17312f,0 0 22px #f5ca69aa}
+.tutorial-frame-info,.tutorial-frame-complete{border:2px dashed #72b0a3;box-shadow:none}
+.tutorial-action-highlight{outline:3px solid #f5ca69!important;outline-offset:4px}
+.tutorial-info-highlight{outline:2px dashed #72b0a3!important;outline-offset:4px}
 .tutorial-card{position:fixed;width:min(440px,calc(100vw - 24px));right:12px!important;left:auto!important;overflow:auto;background:#fffdf7;color:#17312f;border:2px solid #e2b75c;border-radius:14px;box-shadow:0 15px 50px #0007;padding:14px 16px;pointer-events:auto}
 .tutorial-count{font-size:.75rem;font-weight:800;color:#276b5e;letter-spacing:.04em}
 .tutorial-card h2{font-size:1.08rem;margin:5px 0 7px}
 .tutorial-card p{font-size:.9rem;line-height:1.55;margin:0 0 12px}
+.tutorial-card .tutorial-guidance{font-weight:800;color:#174e47;background:#e8f3ee;border-left:4px solid #276b5e;border-radius:4px;padding:9px 11px}
 .tutorial-actions{display:flex;flex-wrap:wrap;gap:8px}
 .tutorial-actions button{padding:9px 12px;font-size:.85rem}
-.tutorial-actions button:focus-visible,.tutorial-highlight:focus-visible{outline:3px solid #f5ca69!important;outline-offset:3px}
+.tutorial-exit{border-top:1px solid #ded8c9;margin-top:22px;padding-top:11px;text-align:right}
+.tutorial-exit button{border:0;background:transparent;color:#405b55;text-decoration:underline;text-underline-offset:3px;font-size:.78rem;padding:11px 8px;min-height:44px}
+.tutorial-exit button:hover{color:#17312f}
+.tutorial-confirm-open{pointer-events:auto!important}
+.tutorial-confirm-open .tutorial-shade{pointer-events:auto;background:rgba(8,26,24,.84)}
+.tutorial-confirm-open .tutorial-card{left:50%!important;right:auto!important;width:min(440px,calc(100vw - 24px))}
+.tutorial-confirm-actions{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:18px}
+.tutorial-confirm-actions button{min-height:44px}
+.tutorial-actions button:focus-visible,.tutorial-exit button:focus-visible,.tutorial-confirm-actions button:focus-visible,.tutorial-action-highlight:focus-visible{outline:3px solid #f5ca69!important;outline-offset:3px}
 @media(max-width:760px){.tutorial-card{width:calc(100vw - 24px);padding:11px 13px}.tutorial-card p{font-size:.84rem}.tutorial-actions button{padding:8px 10px}}
 @media(prefers-reduced-motion:reduce){.tutorial-highlight,.tutorial-frame,.tutorial-card{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
