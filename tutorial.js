@@ -94,13 +94,13 @@ function createController(){
   }
   function abort(){
     const raw=state.savedAtStart;cleanup();cancelSession();
-    if(raw){try{game=Game.restore(JSON.parse(raw));showGame();if(!game.s.pending&&game.s.phase!=='end')schedule(advance);return}catch(e){console.error(e)}}
+    if(raw){try{game=Game.restore(JSON.parse(raw));if(typeof restoreReviewForGame==='function')restoreReviewForGame(game,raw);showGame();if(!game.s.pending&&game.s.phase!=='end')schedule(advance);return}catch(e){console.error(e)}}
     resetToSetup();
   }
   function finish(){
     if(!state.active||state.stage!=='complete'||!state.milestones.cornShipped||!state.milestones.captainPrivilegeTaken)return;
     if(state.savedAtStart){abort();return}
-    const finishedState=game.s;cleanup();cancelSession();game=Game.restore(finishedState);render();save();
+    const finishedState=game.s;cleanup();cancelSession();game=Game.restore(finishedState);if(typeof beginPartialReviewForGame==='function')beginPartialReviewForGame(game);render();save();
   }
   function canAct(type,payload){return !state.exitConfirmOpen&&allowsAction(state.stage,game.s,type,payload)}
   function beforeAction(){return snapshot(game.s)}

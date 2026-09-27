@@ -5,7 +5,7 @@ const vm=require('vm');
 const engine=require('../engine.js');
 
 const documentListeners=[],windowListeners=[],frames=[],targets=new Map();
-let removed=0,cancelledSessions=0,scheduled=0,resets=0,saveValue=null;
+let removed=0,cancelledSessions=0,scheduled=0,resets=0,saveValue=null,reviewRestored=0,partialStarted=0;
 const document={activeElement:null};
 function classList(){
   const values=new Set();
@@ -53,6 +53,7 @@ const window={innerWidth:1280,innerHeight:800,addEventListener(type,handler){reg
 const context=vm.createContext({
   IslaEngine:engine,document,window,localStorage:{getItem(){return saveValue}},SAVE_KEY:'islaTutorSaveV2',game:null,
   startGameInstance(instance){context.game=instance;instance.continue();context.IslaTutorial.sync()},
+  restoreReviewForGame(){reviewRestored++},beginPartialReviewForGame(){partialStarted++},
   requestAnimationFrame(fn){frames.push(fn);return frames.length},cancelAnimationFrame(){},
   cancelSession(){cancelledSessions++},schedule(){scheduled++},advance(){},resetToSetup(){resets++},showGame(){},render(){},save(){},confirm(){return true},console
 });
@@ -152,6 +153,7 @@ assert.equal(tutorial.stage,'complete');assert(card.innerHTML.includes('完了')
 assert(card.buttons.has('finish'));assert(!card.buttons.has('exit'));
 assert.equal(document.activeElement,card.buttons.get('finish'));
 clickAction('finish');flushFrames();assert.equal(tutorial.active,false);assert.equal(removed,1);
+assert.equal(partialStarted,1,'tutorial promotion starts a partial review after the lesson');
 assert.equal(documentListeners.length,0);assert.equal(windowListeners.length,0);assert.equal(resets,0);
 
 saveValue=JSON.stringify(new engine.Game({count:3,rng:()=>.2}).s);
@@ -161,6 +163,7 @@ openConfirm();clickAction('confirm-exit');flushFrames();
 assert.equal(tutorial.active,false);assert.equal(removed,2);
 assert.equal(documentListeners.length,0);assert.equal(windowListeners.length,0);
 assert.equal(JSON.stringify(context.game.s),saveValue,'abort restores the previous save');
+assert.equal(reviewRestored,1,'abort reconnects the saved review');
 tutorial.start();flushFrames();assert.equal(card.getAttribute('role'),'dialog');assert(!overlay.classList.contains('tutorial-confirm-open'));
 openConfirm();tutorial.cleanup();flushFrames();assert.equal(documentListeners.length,0);assert.equal(windowListeners.length,0);
 assert(!board.classList.contains('tutorial-highlight'));
