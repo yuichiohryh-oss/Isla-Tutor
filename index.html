@@ -40,7 +40,15 @@
           <label><input type="radio" name="expansion" value="none" checked><span><b>なし</b><small>基本建物のみ</small></span></label>
           <label><input type="radio" name="expansion" value="new_buildings"><span><b>新建物</b><small>準備中</small></span></label>
         </div><p id="expansionNotice" class="form-note hidden" role="status">新建物拡張は準備中です。「なし」を選ぶとプレイできます。</p></fieldset>
-        <label class="check"><input id="balanced" type="checkbox" checked><span>バランス調整ルールを使う</span></label>
+<div class="balanced-setting">
+  <label class="check">
+    <input id="balanced" type="checkbox" checked>
+    <span>バランス調整ルールを使う（推奨）</span>
+  </label>
+  <p class="form-note">
+    初期条件の差を小さくします。工場 8金・大学 7金、トウモロコシ開始者は初期資金 −1金。
+  </p>
+</div>
         <button class="primary" type="submit">ゲームを始める</button>
         <button id="tutorialStartBtn" class="secondary" type="button">はじめて遊ぶ・チュートリアル</button>
         <button id="resumeBtn" class="secondary hidden" type="button">前回の続きから</button>
